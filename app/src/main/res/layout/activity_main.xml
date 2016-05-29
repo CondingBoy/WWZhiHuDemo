@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="helloworld.example.administrator.wwzhihudemo.MainActivity">
+    <helloworld.example.administrator.wwzhihudemo.view.MyRefreshLayout
+        android:id="@+id/swipRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <helloworld.example.administrator.wwzhihudemo.view.MyListView
+        android:id="@+id/lv_news"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="10dp"
+        android:divider="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
+         />
+    </helloworld.example.administrator.wwzhihudemo.view.MyRefreshLayout>
+</RelativeLayout>
