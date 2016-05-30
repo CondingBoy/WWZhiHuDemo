@@ -38,7 +38,7 @@ public class News implements Serializable{
                     '}';
         }
     }
-    public class TopNewsDetail{
+    public class TopNewsDetail implements Serializable{
         public String ga_prefix;
         public String id;
         public String image;

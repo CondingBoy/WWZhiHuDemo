@@ -22,7 +22,7 @@ import helloworld.example.administrator.wwzhihudemo.R;
 public class MyListView extends ListView {
 
     private final MyViewPager viewPager;
-    private int currentItem=1;
+    private int currentItem=0;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -32,11 +32,13 @@ public class MyListView extends ListView {
             viewPager.setCurrentItem(currentItem);
             currentItem++;
 
-            if (currentItem > pagerCount) {
-                currentItem = 1;
+            if (currentItem > pagerCount-1) {
+                currentItem = 0;
             }
-            this.sendEmptyMessageDelayed(0, 2000);
-            Log.e("TAG4","current:"+currentItem+"pagercount:"+pagerCount);
+            this.sendEmptyMessageDelayed(0, 3000);
+//            Log.e("TAG4","current:"+currentItem+"pagercount:"+pagerCount);
+            Log.e("TAG4","currentItem3:"+viewPager.getCurrentItem()+"pagercount:"+pagerCount);
+
         }
     };
 
@@ -63,6 +65,7 @@ public class MyListView extends ListView {
                }
            }
        });
+
     }
 
 }

@@ -21,6 +21,7 @@ import helloworld.example.administrator.wwzhihudemo.asyncTask.NewsListTask;
 import helloworld.example.administrator.wwzhihudemo.domain.News;
 import helloworld.example.administrator.wwzhihudemo.http.HttpRequest;
 import helloworld.example.administrator.wwzhihudemo.util.DateFomatUtil;
+import helloworld.example.administrator.wwzhihudemo.util.NetworkCheckUtil;
 import helloworld.example.administrator.wwzhihudemo.view.MyListView;
 import helloworld.example.administrator.wwzhihudemo.view.MyRefreshLayout;
 
@@ -57,15 +58,29 @@ public class MainActivity extends AppCompatActivity {
                         newsDetail.time = DateFomatUtil.getTime(news.date);
                         //将这个对象加入数据集合中作为tab
                         news.stories.add(0, newsDetail);
-                        mAdapter.refreshData(news.stories);
-                        Log.e("TAG5", "刷新：" + news.stories.toString());
+                        //若mAdapter为空，说明程序启动时无网络，没有初始化，所以在刷新时要重新初始化操作
+                        if(mAdapter==null){
+                            mAdapter = new NewsListAdapter(news.stories,MainActivity.this,  mListView);
+                            mListView.setAdapter(mAdapter);
+                            MyPagerAdapter myPagerAdapter = new MyPagerAdapter(news.top_stories,MainActivity.this);
+                            mListView.setViewPagerAdapter(myPagerAdapter);
+                        }else{
+
+                            mAdapter.refreshData(news.stories);
+                        }
+                        Log.e("TAG5", "刷新20：" + news.stories.toString());
                         refreshLayout.setRefreshing(false);
 //                        Log.e("TAG5", DateFomatUtil.getTime(news.date) + "string");
 
 
                     }
                 });
-                task.execute(HttpRequest.NEWS_TYPE_TODAY);
+                //检查网络状态
+                if(NetworkCheckUtil.isNetworkConnected(MainActivity.this)){
+                    task.execute(HttpRequest.NEWS_TYPE_TODAY);
+                }else{
+                    NetworkCheckUtil.showMessage(MainActivity.this);
+                }
             }
         });
         //监听listview滑动事件
@@ -87,13 +102,18 @@ public class MainActivity extends AppCompatActivity {
                             //将这个对象加入数据集合中作为tab
                             news.stories.add(0,newsDetail);
                             mAdapter.refreshLoadMore(news.stories);
-                            Log.e("TAG6", "加载更多：" + news.stories.toString());
+//                            Log.e("TAG6", "加载更多：" + news.stories.toString());
 
 
 
                         }
                     });
-                    task.execute(HttpRequest.NEWS_TYPE_BEFORE,currentDate);
+                    //检查网络状态
+                    if(NetworkCheckUtil.isNetworkConnected(MainActivity.this)){
+                        task.execute(HttpRequest.NEWS_TYPE_BEFORE,currentDate);
+                    }else{
+                        NetworkCheckUtil.showMessage(MainActivity.this);
+                    }
                 }
             }
 
@@ -155,7 +175,12 @@ public class MainActivity extends AppCompatActivity {
                 mListView.setViewPagerAdapter(myPagerAdapter);
             }
         });
-        task.execute(HttpRequest.NEWS_TYPE_TODAY);
+        //检查网络状态
+        if(NetworkCheckUtil.isNetworkConnected(this)){
+            task.execute(HttpRequest.NEWS_TYPE_TODAY);
+        }else{
+            NetworkCheckUtil.showMessage(this);
+        }
     }
 
     @Override

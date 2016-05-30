@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import helloworld.example.administrator.wwzhihudemo.R;
+import helloworld.example.administrator.wwzhihudemo.activity.NewsDetailActivity;
 import helloworld.example.administrator.wwzhihudemo.asyncTask.ImageloaderForPager;
 import helloworld.example.administrator.wwzhihudemo.domain.News;
 
@@ -44,7 +45,7 @@ public class MyPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        News.TopNewsDetail topNewsDetail = mData.get(position);
+        final News.TopNewsDetail topNewsDetail = mData.get(position);
         View view = inflater.inflate(R.layout.pager_item, container, false);
         TextView pagerTitle = (TextView) view.findViewById(R.id.tv_topnews_title);
         ImageView pagerIamge = (ImageView) view.findViewById(R.id.iv_topnews_icon);
@@ -52,6 +53,14 @@ public class MyPagerAdapter extends PagerAdapter {
         pagerIamge.setTag(topNewsDetail.image);
         loader.loadPagerImage(topNewsDetail.image,pagerIamge);
         ( (ViewPager)container).addView(view);
+
+        //给当前页添加监听
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewsDetailActivity.startActivity(mContext,topNewsDetail);
+            }
+        });
         return view;
     }
 

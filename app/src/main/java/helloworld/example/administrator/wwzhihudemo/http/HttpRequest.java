@@ -17,6 +17,9 @@ import helloworld.example.administrator.wwzhihudemo.util.ParseInputStream;
 public class HttpRequest {
     public static final String NESLISTURL = "http://news-at.zhihu.com/api/4/news/latest";
     public static final String NESBEFORELISTURL = "http://news.at.zhihu.com/api/4/news/before/";
+    public static final String SPLASHINFOURL = "http://news-at.zhihu.com/api/4/start-image/720*1184";
+
+
     public static final String NEWS_TYPE_TODAY = "today";
     public static final String NEWS_TYPE_BEFORE = "before";
     public static String requestJSonResult(String url) {
@@ -50,7 +53,7 @@ public class HttpRequest {
             connection = (HttpURLConnection) mUrl.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
+            connection.setReadTimeout(8000);
             InputStream inputStream = connection.getInputStream();
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             connection.disconnect();
