@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.LruCache;
 import android.widget.ImageView;
+import android.widget.ListView;
 
 import java.io.InputStream;
 import java.io.PipedReader;
@@ -17,10 +18,24 @@ import helloworld.example.administrator.wwzhihudemo.view.MyListView;
  */
 public class ImageLoader  {
     private LruCache<String,Bitmap> mCache;
-    private  MyListView mListView;
+// 1   private  MyListView mListView;
+    private  ListView mListView;
 
 
-    public ImageLoader(MyListView listView){
+// 1   public ImageLoader(MyListView listView){
+//        mListView = listView;
+//        //初始化缓存
+//        //获取当前应用的最大内存
+//        long maxMemory = Runtime.getRuntime().maxMemory();
+//        mCache=new LruCache<String,Bitmap>((int) (maxMemory/4)){
+//            @Override
+//            protected int sizeOf(String key, Bitmap value) {
+//                //返回占用的内存
+//                return value.getByteCount();
+//            }
+//        };
+//    }
+    public ImageLoader(ListView listView){
         mListView = listView;
         //初始化缓存
         //获取当前应用的最大内存

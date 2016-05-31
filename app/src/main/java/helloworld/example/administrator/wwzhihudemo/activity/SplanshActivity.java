@@ -17,6 +17,7 @@ import helloworld.example.administrator.wwzhihudemo.MainActivity;
 import helloworld.example.administrator.wwzhihudemo.R;
 import helloworld.example.administrator.wwzhihudemo.asyncTask.SplashAsyncTask;
 import helloworld.example.administrator.wwzhihudemo.http.HttpRequest;
+import helloworld.example.administrator.wwzhihudemo.util.ConfigUtil;
 import helloworld.example.administrator.wwzhihudemo.util.NetworkCheckUtil;
 
 /**
@@ -34,10 +35,20 @@ public class SplanshActivity extends AppCompatActivity {
             finish();
         }
     };
+    private ConfigUtil mConfigUtil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        //判断设置
+        mConfigUtil = new ConfigUtil(this);
+        if(!mConfigUtil.getConfigBoolean("splash",true)){
+            //不显示splashactivity
+            startActivity(new Intent(SplanshActivity.this, MainActivity.class));
+            finish();
+            return;
+        }
         //消除anctionbar的阴影
         getSupportActionBar().setElevation(0);
         setTitle("");

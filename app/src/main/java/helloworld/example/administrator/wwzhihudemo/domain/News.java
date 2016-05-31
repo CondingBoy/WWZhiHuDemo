@@ -44,6 +44,7 @@ public class News implements Serializable{
         public String image;
         public String title;
         public String type;
+        public String time;
 
         @Override
         public String toString() {

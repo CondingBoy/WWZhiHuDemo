@@ -1,11 +1,13 @@
 package helloworld.example.administrator.wwzhihudemo;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -14,12 +16,14 @@ import android.widget.ListView;
 import java.util.Date;
 import java.util.zip.DataFormatException;
 
+import helloworld.example.administrator.wwzhihudemo.activity.FavoriteActivity;
 import helloworld.example.administrator.wwzhihudemo.activity.NewsDetailActivity;
 import helloworld.example.administrator.wwzhihudemo.adpater.MyPagerAdapter;
 import helloworld.example.administrator.wwzhihudemo.adpater.NewsListAdapter;
 import helloworld.example.administrator.wwzhihudemo.asyncTask.NewsListTask;
 import helloworld.example.administrator.wwzhihudemo.domain.News;
 import helloworld.example.administrator.wwzhihudemo.http.HttpRequest;
+import helloworld.example.administrator.wwzhihudemo.util.ConfigUtil;
 import helloworld.example.administrator.wwzhihudemo.util.DateFomatUtil;
 import helloworld.example.administrator.wwzhihudemo.util.NetworkCheckUtil;
 import helloworld.example.administrator.wwzhihudemo.view.MyListView;
@@ -31,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private MyRefreshLayout refreshLayout;
     private MyListView mListView;
     private NewsListAdapter mAdapter;
+    private MenuItem mSettingMenuItem;
+    private ConfigUtil mConfigUtil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +194,36 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu,menu);
+        mSettingMenuItem = menu.findItem(R.id.setting);
+        mConfigUtil = new ConfigUtil(this);
+        if(mConfigUtil.getConfigBoolean("splash",true)){
+            mSettingMenuItem.setTitle("关闭导航页");
+        }else {
+            mSettingMenuItem.setTitle("开启导航页");
+        }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.favorite:
+                startActivity(new Intent(this, FavoriteActivity.class));
+                break;
+            case R.id.setting:
+                boolean isOpen = mConfigUtil.getConfigBoolean("splash",true);
+                if(isOpen){
+                    isOpen=!isOpen;
+                    mConfigUtil.setConfigBoolean("splash",isOpen);
+                    mSettingMenuItem.setTitle("开启导航页");
+                }else {
+                    isOpen=!isOpen;
+                    mConfigUtil.setConfigBoolean("splash",isOpen);
+                    mSettingMenuItem.setTitle("关闭导航页");
+
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
