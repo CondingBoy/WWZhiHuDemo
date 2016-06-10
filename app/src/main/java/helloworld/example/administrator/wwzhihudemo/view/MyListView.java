@@ -37,21 +37,24 @@ public class MyListView extends ListView {
             }
             this.sendEmptyMessageDelayed(0, 3000);
 //            Log.e("TAG4","current:"+currentItem+"pagercount:"+pagerCount);
-            Log.e("TAG4","currentItem3:"+viewPager.getCurrentItem()+"pagercount:"+pagerCount);
+            Log.e("TAG4","currentItem4:"+viewPager.getCurrentItem()+"pagercount:"+pagerCount);
 
         }
     };
+    private final PagerIndicator indicator;
 
     public MyListView(Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater inflater = LayoutInflater.from(context);
         View viewHeader = inflater.inflate(R.layout.list_header_item, null);
         viewPager = (MyViewPager) viewHeader.findViewById(R.id.vp_header);
+        indicator = (PagerIndicator) viewHeader.findViewById(R.id.indicator);
         addHeaderView(viewHeader);
     }
 
     public void setViewPagerAdapter(PagerAdapter adapter) {
         viewPager.setAdapter(adapter);
+        indicator.setViewPager(viewPager);
         mHandler.sendEmptyMessageDelayed(0, 2000);//让viewpager轮播
         //当viewpager获得焦点时停止轮播
        viewPager.setOnFocusChangeListener(new OnFocusChangeListener() {

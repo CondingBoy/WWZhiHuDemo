@@ -58,8 +58,11 @@ public class ImageLoader  {
             task.execute(url);
         }else{
             //缓存中有图片
-//              1.这段语句在手指刚开始下滑的时候，imageview为null，所以就不会设置imageview的图片，
-//                所以出现下滑时，最上面出现的图片是与最下面被滑过去的图片相同，目前自己认为，
+//    已解决  1.这段语句在手指刚开始下滑的时候，imageview为null，所以就不会设置imageview的图片，
+//            所以出现下滑时，最上面出现的图片是与最下面被滑过去的图片相同，原因是：这个方法是从getview
+//            中跳转来的，此时还在主线程中，getview没有执行完，所以此时的item还没有返回，即ListView还没有attached
+//            这个item，所以在ListView中通过findViewWithTag是找不到的。
+//      问题：      所以目前自己认为，
 //                在手指刚开始下滑时，listview调用getview方法，但这时，因为这个item还没有显示，
 //                还不算是listview的子view，所以不能通过findviewwithtag找到，所以为imageview为空，
 //                跳过了这句话的执行，没有给ImageView重新设置图片，依然显示的是复用的convertview之前的图片

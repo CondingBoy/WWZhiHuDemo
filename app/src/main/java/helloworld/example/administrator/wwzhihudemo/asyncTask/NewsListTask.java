@@ -38,7 +38,7 @@ public class NewsListTask extends AsyncTask<String, Void, News> {
         }else{
             new RuntimeException("传入的参数不正确");
         }
-        Log.e("TAG6","参数正确");
+        Log.e("TAG6","参数正确1");
         String jsonString=HttpRequest.requestJSonResult(url);
         Gson gson = new Gson();
         News news = gson.fromJson(jsonString,News.class);
